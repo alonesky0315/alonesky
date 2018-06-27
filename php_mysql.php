@@ -2,7 +2,7 @@
 header("Content-Type: text/html; charset=UTF-8");
 $dbhost = 'localhost'; 
 $dbuser = 'root'; //我的用户名 
-$dbpass = 'webqin0607080910'; //我的密码 
+$dbpass = 'root'; //我的密码 
 $dbname = 'ygcb'; //我的mysql库名 
 $connect = mysql_connect($dbhost,$dbuser,$dbpass,$dbname)or die("数据库连接失败");
 mysql_query("set names utf8");
