@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script type="text/javascript" src="http://i.index.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://i.index.com/js/markdown.js"></script>
+    <script type="text/javascript">
+    //     function charStats(str) {
+    //         var visitStats={};
+    //         for(var i=0;i<str.length;i++){
+    //             var char = str[i];
+    //             if (!visitStats[char]++){
+    //                 visitStats[char]=1;
+    //             }
+    //         }
+    //         return visitStats;
+    //     }
+    //     var arr=[];
+    //     var data=charStats('abcdaabc');
+    //  　　for(var i in data){
+    //         var str=i+"="+data[i]// i  而data[ i ] 就代表 userName    12121 就是 i 所对应的值；
+    //         alert(str);
+    // 　　}
+        //console.log(charStats('abcdaabc')); 
+    </script>
+</head>
+<body>
+    <textarea id="text-input" oninput="this.editor.update()" class="box" wrap="hard" placeholder="请将当前所选题型的所有试题复制到这里" style="white-space: pre; resize: none; margin-left: 39px; width:30%; height:400px; overflow: auto;float: left;"></textarea>
+    <div id="preview" style="width:30%;height:400px;float: left;border:1px solid #ccc;margin-left: 85px;"></div>
+</body> 
+<script type="text/javascript">
+    var upload_file= '';
+    var qt_type="1";
+    $(function () {
+        function Editor(input, preview) {
+            this.update = function () {
+                preview.innerHTML = markdown.toHTML(input.value);
+                // 标记答案
+                markAnswer(qt_type);
+                changeSize();
+            };
+            input.editor = this;
+            this.update();
+        }
+        var $ = function (id) { return document.getElementById(id); };
+        new Editor($("text-input"), $("preview"));
+        // 标记答案
+    });
+    function markAnswer(type) {
+        var list = ['A','B','C','D','E','F','G','H'];
+        if(type=="1"||type=="2"){
+            $(".question").each(function (index, element) {
+                var answer = $(this).find(".qt_answer").addClass("hidden").text().replace(/^答案[:：]/,"").toUpperCase();
+                for (var i = 0; i < list.length; i++) {
+                    if(answer.search(list[i])!=-1){
+                        $(this).find(".key_"+list[i]+" .checkOrRadio").prop("checked",true);
+                    }
+                }
+            });
+        }
+    }
+    //当题号过长时改变字号
+    function changeSize() {
+        $(".question .qt_title .title").each(function(index, element) {
+            var $numWords = $(this).text().length;
+            if($numWords==4){
+                $(this).css({"font-size":"20px"});
+            }else if ($numWords==5) {
+                $(this).css({"font-size":"16px"});
+            }else if ($numWords>5) {
+                $(this).css({"font-size":"14px"});
+            }
+        });
+    }
+</script>
+</html>
